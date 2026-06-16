@@ -19,9 +19,12 @@ class Fine extends Model
     ];
 
     protected $casts = [
-        'amount' => 'decimal:2',
-        'due_date' => 'date',
-        'paid_at' => 'date',
+        'late_penalty_flat' => 'decimal:2',
+    'interest_rate_pct' => 'decimal:2',
+    'min_credit_score' => 'decimal:1',
+    'savings_weight' => 'decimal:2',
+    'attendance_weight' => 'decimal:2',
+    'repayment_weight' => 'decimal:2',
     ];
 
     public function user(): BelongsTo

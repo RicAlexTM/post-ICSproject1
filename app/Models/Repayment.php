@@ -9,8 +9,10 @@ class Repayment extends Model
 {
     protected $fillable = [
         'loan_id',
-        'amount',
-        'paid_at',
+    'repayment_amount',
+    'repayment_date',
+    'remaining_balance',
+    'is_late',
     ];
 
     protected $casts = [

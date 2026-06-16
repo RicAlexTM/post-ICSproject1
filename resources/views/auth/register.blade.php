@@ -39,6 +39,18 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Chama Selection -->
+<div class="mt-4">
+    <x-input-label for="chama_id" :value="__('Chama')" />
+    <select id="chama_id" name="chama_id" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
+        <option value="">Select a Chama</option>
+        @foreach(\App\Models\Chama::all() as $chama)
+            <option value="{{ $chama->id }}">{{ $chama->name }}</option>
+        @endforeach
+    </select>
+    <x-input-error :messages="$errors->get('chama_id')" class="mt-2" />
+</div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}

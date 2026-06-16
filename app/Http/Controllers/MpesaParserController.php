@@ -17,22 +17,29 @@ class MpesaParserController extends Controller
     }
 
     public function store(Request $request, MpesaSMSParser $parser)
-    {
-        $data = $request->validate([
-            'message' => ['required', 'string'],
-        ]);
+{
+    $data = $request->validate([
+        'message' => ['required', 'string'],
+    ]);
 
-        $parsed = $parser->parse($data['message']);
+    $parsed = $parser->parse($data['message']);
 
-        MappedMpesaTransaction::create([
-            'user_id' => Auth::id(),
-            'amount' => $parsed['amount'],
+    $transaction = MappedMpesaTransaction::create([
+        'user_id' => Auth::id(),
+        'amount' => $parsed['amount'],
+        'sender' => $parsed['sender'],
+        'transaction_code' => $parsed['transaction_code'],
+        'message' => $parsed['message'],
+        'status' => 'unmapped',
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'amount' => number_format($parsed['amount'], 2),
             'sender' => $parsed['sender'],
             'transaction_code' => $parsed['transaction_code'],
-            'message' => $parsed['message'],
-            'status' => 'unmapped',
-        ]);
-
-        return redirect()->back()->with('success', 'MPesa message parsed.');
-    }
-}
+            'date' => $parsed['date'] ?? now()->toDateString(),
+        ]
+    ]);
+}}
