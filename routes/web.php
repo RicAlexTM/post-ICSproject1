@@ -8,6 +8,7 @@ use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ChamaConfigController;
+use App\Http\Controllers\MeetingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/member/loans', [LoanController::class, 'index'])->name('member.loans');
         Route::post('/member/loans', [LoanController::class, 'store'])->name('member.loans.store');
+
+        Route::get('/member/attendance', [MeetingController::class, 'memberAttendance'])->name('member.attendance');
     });
 
     // Treasurer routes (secured with role:treasurer middleware)
@@ -51,6 +54,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/treasurer/chama/config', [ChamaConfigController::class, 'edit'])->name('treasurer.chama.config');
         Route::post('/treasurer/chama/config', [ChamaConfigController::class, 'update'])->name('treasurer.chama.config.update');
+
+        Route::get('/treasurer/meetings', [MeetingController::class, 'index'])->name('treasurer.meetings');
+        Route::post('/treasurer/meetings', [MeetingController::class, 'store'])->name('treasurer.meetings.store');
+        Route::patch('/treasurer/meetings/{meeting}', [MeetingController::class, 'update'])->name('treasurer.meetings.update');
+        Route::delete('/treasurer/meetings/{meeting}', [MeetingController::class, 'destroy'])->name('treasurer.meetings.destroy');
+        Route::get('/treasurer/meetings/{meeting}/attendance', [MeetingController::class, 'attendance'])->name('treasurer.meetings.attendance');
+        Route::post('/treasurer/meetings/{meeting}/attendance', [MeetingController::class, 'saveAttendance'])->name('treasurer.meetings.saveAttendance');
     });
 
     // Report routes for members (and authorized treasurers)

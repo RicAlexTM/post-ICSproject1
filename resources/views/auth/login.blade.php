@@ -236,15 +236,12 @@
                     <!-- Conditional: Join Chama -->
                     <div class="space-y-stack-xs" id="join_logic">
                         <label class="block font-label-md text-label-md text-on-surface-variant mb-stack-xs" for="chama_id">Select Your Group</label>
-                        <div class="relative">
-                            <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all appearance-none" id="chama_id" name="chama_id">
-                                <option value="">-- Choose Chama --</option>
-                                @foreach($chamas ?? [] as $c)
-                                    <option value="{{ $c->id }}" {{ old('chama_id') == $c->id ? 'selected' : '' }}>{{ $c->name }} ({{ $c->location }})</option>
-                                @endforeach
-                            </select>
-                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-secondary">expand_more</span>
-                        </div>
+                        <select class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all" id="chama_id" name="chama_id">
+                            <option value="">-- Choose Chama --</option>
+                            @foreach($chamas ?? [] as $c)
+                                <option value="{{ $c->id }}" {{ old('chama_id') == $c->id ? 'selected' : '' }}>{{ $c->name }} ({{ $c->location }})</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Conditional: Create Chama -->

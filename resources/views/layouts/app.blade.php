@@ -252,12 +252,20 @@
                 <span class="material-symbols-outlined text-lg">account_balance</span>
                 <span class="text-sm font-medium">Loans</span>
             </a>
+            <a href="{{ route('member.attendance') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'member.attendance') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-lg">event_available</span>
+                <span class="text-sm font-medium">Attendance</span>
+            </a>
         @endif
 
         @if(auth()->user()->role === 'treasurer')
             <div class="pt-4 pb-2 px-4">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Administration</span>
             </div>
+            <a href="{{ route('treasurer.meetings') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'treasurer.meetings') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-lg">event_available</span>
+                <span class="text-sm font-medium">Meetings</span>
+            </a>
             <a href="{{ route('treasurer.sms-parser') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'treasurer.sms-parser') ? 'active' : '' }}">
                 <span class="material-symbols-outlined text-lg">sms</span>
                 <span class="text-sm font-medium">SMS Parser</span>
@@ -409,12 +417,18 @@
                 <a href="{{ route('member.loans') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'member.loans') ? 'bg-amber-50 text-amber-800 font-bold' : '' }}">
                     <span class="material-symbols-outlined">account_balance</span>Loans
                 </a>
+                <a href="{{ route('member.attendance') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'member.attendance') ? 'bg-amber-50 text-amber-800 font-bold' : '' }}">
+                    <span class="material-symbols-outlined">event_available</span>Attendance
+                </a>
             @endif
             
             @if(auth()->user()->role === 'treasurer')
                 <div class="pt-4 pb-2 px-4">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Admin</span>
                 </div>
+                <a href="{{ route('treasurer.meetings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'treasurer.meetings') ? 'bg-amber-50 text-amber-800 font-bold' : '' }}">
+                    <span class="material-symbols-outlined">event_available</span>Meetings
+                </a>
                 <a href="{{ route('treasurer.sms-parser') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 {{ str_starts_with($currentRoute, 'treasurer.sms-parser') ? 'bg-amber-50 text-amber-800 font-bold' : '' }}">
                     <span class="material-symbols-outlined">sms</span>SMS Parser
                 </a>

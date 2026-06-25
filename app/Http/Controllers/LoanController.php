@@ -62,6 +62,35 @@ class LoanController extends Controller
         return redirect()->back()->with('error', 'Loan request blocked: Your account status is Overdue. Please clear all outstanding penalties.');
     }
 
+    // Check individual limit (3x savings contributions)
+    $savingsBalance = \App\Models\Transaction::where('user_id', $user->id)
+        ->where('chama_id', $chama->id)
+        ->where('type', 'contribution')
+        ->sum('amount');
+    $individualLimit = $savingsBalance * 3;
+
+    if ($request->amount > $individualLimit) {
+        return redirect()->back()->with('error', 'Loan request blocked: The requested amount exceeds your individual borrowing limit of 3x your savings (Ksh ' . number_format($individualLimit, 2) . ').');
+    }
+
+    // Check group cash reserves pool limit
+    $contributions = \App\Models\Contribution::where('chama_id', $chama->id)->sum('amount');
+    $repayments = \App\Models\Repayment::whereHas('loan', function ($q) use ($chama) {
+        $q->where('chama_id', $chama->id);
+    })->sum('repayment_amount');
+    $finesPaid = \App\Models\Fine::where('chama_id', $chama->id)
+        ->where('status', 'paid')
+        ->sum('amount');
+    $loansDisbursed = \App\Models\Loan::where('chama_id', $chama->id)
+        ->whereIn('status', ['active', 'completed'])
+        ->sum('amount');
+
+    $availableCashPool = ($contributions + $repayments + $finesPaid) - $loansDisbursed;
+
+    if ($request->amount > $availableCashPool) {
+        return redirect()->back()->with('error', 'Loan request blocked: The requested amount exceeds the Chama\'s available cash pool (Ksh ' . number_format($availableCashPool, 2) . ').');
+    }
+
     // ✅ Compute real credit score using the engine
     $score = $scoringEngine->calculateScore($user);
 

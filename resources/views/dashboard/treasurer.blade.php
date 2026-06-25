@@ -118,9 +118,9 @@
             <h4 class="text-sm font-bold font-title text-slate-800 mb-4">Quick Admin Actions</h4>
             <div class="premium-card p-5 rounded-2xl space-y-4">
                 <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('member.contributions') }}" class="flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-100 transition group text-center shadow-sm">
-                        <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-gold-600 mb-1">add_circle</span>
-                        <span class="text-[10px] font-bold text-slate-600">Add Savings</span>
+                    <a href="{{ route('treasurer.meetings') }}" class="flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-100 transition group text-center shadow-sm">
+                        <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-gold-600 mb-1">event_available</span>
+                        <span class="text-[10px] font-bold text-slate-600">Meetings</span>
                     </a>
                     <button onclick="openSmsModal()" class="open-sms-modal-trigger flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-100 transition group text-center w-full shadow-sm">
                         <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-gold-600 mb-1">sms</span>
