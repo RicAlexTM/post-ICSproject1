@@ -19,7 +19,9 @@ class MpesaParserController extends Controller
 {
     public function index()
     {
-        $transactions = MappedMpesaTransaction::query()->with('user', 'loan')->latest()->get();
+        $transactions = MappedMpesaTransaction::whereHas('user', function ($query) {
+            $query->where('chama_id', Auth::user()->chama_id);
+        })->with('user', 'loan')->latest()->get();
 
         // Load members with their active loan in 2 queries (no N+1)
         $memberIds = User::where('role', 'member')
@@ -94,6 +96,13 @@ class MpesaParserController extends Controller
      */
     public function match(MappedMpesaTransaction $tx, Request $request, LedgerService $ledgerService): JsonResponse
     {
+        if ($tx->user->chama_id !== Auth::user()->chama_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action.',
+            ], 403);
+        }
+
         $data = $request->validate([
             'user_id'      => ['required', 'exists:users,id'],
             'payment_type' => ['sometimes', 'in:contribution,loan_repayment'],
@@ -120,6 +129,13 @@ class MpesaParserController extends Controller
 
     public function reject(MappedMpesaTransaction $tx): JsonResponse
     {
+        if ($tx->user->chama_id !== Auth::user()->chama_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action.',
+            ], 403);
+        }
+
         if ($tx->status !== 'unmapped') {
             return response()->json([
                 'success' => false,

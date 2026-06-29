@@ -247,10 +247,20 @@
 
         const monthlyRate = ANNUAL_RATE / 12;
         
-        // Reducing balance EMI formula: P * r * (1+r)^N / ((1+r)^N - 1)
-        const emi = P * monthlyRate * Math.pow(1 + monthlyRate, N) / (Math.pow(1 + monthlyRate, N) - 1);
-        const totalRepayment = emi * N;
-        const totalInterest = totalRepayment - P;
+        let emi = 0;
+        let totalRepayment = 0;
+        let totalInterest = 0;
+
+        if (monthlyRate === 0) {
+            emi = P / N;
+            totalRepayment = P;
+            totalInterest = 0;
+        } else {
+            // Reducing balance EMI formula: P * r * (1+r)^N / ((1+r)^N - 1)
+            emi = P * monthlyRate * Math.pow(1 + monthlyRate, N) / (Math.pow(1 + monthlyRate, N) - 1);
+            totalRepayment = emi * N;
+            totalInterest = totalRepayment - P;
+        }
 
         // Update UI with Kenyan formatting
         const formatter = new Intl.NumberFormat('en-KE', {
